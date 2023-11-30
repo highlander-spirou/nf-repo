@@ -15,7 +15,38 @@ The script contains:
 └── README.md
 ```
 
+In this repo, I also include the Container into the main.nf file. This helps easier to reuse duplicated containers.
+In the next branch, I will seperate the core logic from the declarative 
 
-Steps:
-1. Reconfig nextflow.config
+### Steps:
 
+1. Reconfig nextflow.config (check configuration guides https://www.nextflow.io/docs/latest/amazons3.html#aws-access-and-secret-keys)
+```
+docker {
+    enabled = true
+}
+
+aws {
+    accessKey = '<ACCESS ID>'
+    secretKey = 'ACCESS Secret'
+    region = 'ap-southeast-2'
+}
+```
+2. Change the declarative of inputs (and publishDir)
+```
+Inputs
+
+params.s3root = "s3://nextflow-first-bucket"
+params.reads = "$params.s3root/input_files/data/ggal/gut_{1,2}.fq"
+params.transcriptome_file = "$params.s3root/input_files/data/ggal/transcriptome.fa"
+```
+
+```
+Output
+ 
+process MULTIQC{
+    publishDir params.outdir, mode:"copy", overwrite: true
+
+    ...
+}
+```
