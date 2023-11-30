@@ -1,0 +1,9 @@
+docker {
+    enabled = true
+}
+
+aws {
+    accessKey = '<Access id>'
+    secretKey = '<Access key>'
+    region = 'ap-southeast-2'
+}
