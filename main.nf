@@ -1,7 +1,6 @@
-params.reads = "$projectDir/data/ggal/gut_{1,2}.fq"
-params.transcriptome_file = "$projectDir/data/ggal/transcriptome.fa"
-params.multiqc = "$projectDir/multiqc"
-params.outdir = "results"
+params.reads = "s3://nextflow-first-bucket/input_files/data/ggal/gut_{1,2}.fq"
+params.transcriptome_file = "s3://nextflow-first-bucket/input_files/data/ggal/transcriptome.fa"
+params.outdir = "s3://nextflow-first-bucket/output"
 
 log.info """\
     R N A S E Q - N F   P I P E L I N E
@@ -26,7 +25,6 @@ process INDEX {
 }
 
 process QUANTIFICATION {
-    tag "Salmon on $sample_id"
     publishDir params.outdir, mode:'copy'
 
     input:
@@ -43,7 +41,6 @@ process QUANTIFICATION {
 }
 
 process FASTQC {
-    tag "FASTQC on $sample_id"
 
     input:
     tuple val(sample_id), path(reads)
